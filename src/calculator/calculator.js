@@ -1,28 +1,36 @@
-const display = document.getElementById('display');
-const buttons = Array.from(document.getElementById('buttons').children);
-let calculation = '';
+function calculate(expression) {
+    try {
+        return eval(expression);
+    } catch {
+        return 'Error';
+    }
+}
 
-buttons.map( button => {
-    button.addEventListener('click', (e) => {
-        let buttonText = e.target.innerText;
+function init() {
+    const display = document.getElementById('display');
+    const buttons = Array.from(document.getElementById('buttons').children);
+    let calculation = '';
 
-        if (buttonText === 'C') {
-            calculation = '';
-            display.value = calculation;
-            return;
-        }
+    buttons.map(button => {
+        button.addEventListener('click', (e) => {
+            let buttonText = e.target.innerText;
 
-        if (buttonText === '=') {
-            try {
-                calculation = eval(calculation);
-            } catch {
-                calculation = 'Error';
+            if (buttonText === 'C') {
+                calculation = '';
+                display.value = calculation;
+                return;
             }
-            display.value = calculation;
-            return;
-        }
 
-        calculation += buttonText;
-        display.value = calculation;
+            if (buttonText === '=') {
+                calculation = calculate(calculation);
+                display.value = calculation;
+                return;
+            }
+
+            calculation += buttonText;
+            display.value = calculation;
+        });
     });
-});
+}
+
+module.exports = { calculate, init };
