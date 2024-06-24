@@ -1,6 +1,8 @@
 function calculate(expression) {
     try {
-        return eval(expression);
+        const result = eval(expression); 
+        if (result === 'Infinity') return 'Error';
+        return result;
     } catch {
         return 'Error';
     }
